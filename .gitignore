@@ -188,5 +188,7 @@ output/
 installers/packages/
 installers/python/
 installers/offline_install/*.exe
+installers/offline_install/*.md
 installers/online_install/*.exe
+installers/online_install/*.md
 
