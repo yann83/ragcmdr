@@ -265,14 +265,3 @@ ragstudio/
 │       └── doc_count.txt       # Fast document count cache
 └── output/                     # Default Markdown export directory
 ```
-
----
-
-## Development Phases
-
-- **Phase 1** ✅ — CLI skeleton, `config.json`, session state, collection management
-- **Phase 2** ✅ — Docling parsing, ChromaDB indexing, `add` / `update` / `list docs` / `remove doc`
-- **Phase 3** ✅ — LM Studio chat, RAG retrieval, Markdown rendering, `to copy` / `to save`
-- **Phase 4** ✅ — `--recursive`, `--save-history`, `to history`, `info collection`, `config show/set`
-- **Phase 5** ✅ — Per-collection embedding parameters snapshot (`embedding_params.json`), coherence guard on model availability, `update collection` resets snapshot for clean re-indexing
-
