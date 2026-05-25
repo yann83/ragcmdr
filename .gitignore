@@ -179,3 +179,14 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+.idea/
+backup/
+collections/
+help/
+output/
+installers/packages/
+installers/python/
+installers/offline_install/*.exe
+installers/online_install/*.exe
+

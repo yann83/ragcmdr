@@ -1,0 +1,21 @@
+{
+  "lmstudio": {
+    "base_url": "http://127.0.0.1:1234",
+    "model": "local-model",
+    "system_prompt": "You are a helpful assistant. Answer only based on the provided context.",
+    "temperature": 0.2,
+    "max_tokens": 2048
+  },
+  "paths": {
+    "collections_dir": "./collections",
+    "output_dir": "./output"
+  },
+  "embedding": {
+    "model_name": "all-MiniLM-L6-v2",
+    "chunk_size": 1024,
+    "chunk_overlap": 200
+  },
+  "retrieval": {
+    "top_k": 20
+  }
+}
