@@ -3,7 +3,7 @@
 <p align="center">
   <img src="img/banner.png" width="720px" border="0" alt="banner">
   <br>
-  <a href="https://github.com/yann83/userslinker/releases/latest"><img src="https://img.shields.io/github/v/release/yann83/userslinker" alt="Version"></a>
+  <a href="https://github.com/yann83/ragcmdr/releases/latest"><img src="https://img.shields.io/github/v/release/yann83/ragcmdr" alt="Version"></a>
   <img src="https://img.shields.io/badge/Python-3.12-blue">
 </p>
 

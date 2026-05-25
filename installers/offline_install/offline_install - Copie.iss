@@ -18,7 +18,7 @@ DefaultDirName={localappdata}\{#AppName}
 DefaultGroupName={#AppName}
 DisableProgramGroupPage=yes
 OutputDir=.\
-OutputBaseFilename=ragcmdr-lite-setup-{#AppVersion}
+OutputBaseFilename=ragcmdr-offline-setup-{#AppVersion}
 SetupIconFile=..\..\img\ragcmdr.ico
 UninstallDisplayIcon=..\..\img\ragcmdr.ico
 Compression=lzma2/ultra64
@@ -50,9 +50,12 @@ Source: "..\..\requirements.txt"; DestDir: "{app}"
 Source: "..\..\config.json";     DestDir: "{app}"; Flags: onlyifdoesntexist
 Source: "ragcmdr.bat";     DestDir: "{app}"
 Source: "post_install.bat"; DestDir: "{app}"
-Source: "..\..\commands\*";      DestDir: "{app}\commands";  Excludes: "__pycache__,*.pyc";   Flags: recursesubdirs createallsubdirs
-Source: "..\..\core\*";          DestDir: "{app}\core";      Excludes: "__pycache__,*.pyc";   Flags: recursesubdirs createallsubdirs
-Source: "..\..\chat\*";          DestDir: "{app}\chat";      Excludes: "__pycache__,*.pyc";   Flags: recursesubdirs createallsubdirs
+Source: "..\..\commands\*";      DestDir: "{app}\commands"; Flags: recursesubdirs createallsubdirs
+Source: "..\..\core\*";          DestDir: "{app}\core";     Flags: recursesubdirs createallsubdirs
+Source: "..\..\chat\*";          DestDir: "{app}\chat";     Flags: recursesubdirs createallsubdirs
+
+; --- Pre-downloaded packages (offline install) ---
+Source: "..\packages\*"; DestDir: "{app}\packages"; Flags: recursesubdirs createallsubdirs
 
 [Dirs]
 Name: "{app}\collections"
@@ -61,10 +64,10 @@ Name: "{app}\output"
 [Run]
 ; This runs post_install.bat after all files are copied.
 ; StatusMsg is shown in the installer progress window.
-; Filename: "{cmd}"; Parameters: "/c ""{app}\post_install.bat"" ""{app}"""; WorkingDir: "{app}"; StatusMsg: "Installing Python dependencies (first run, please wait)..."; Flags: runhidden waituntilterminated
-;Filename: "{cmd}"; Parameters: "/c ""{app}\post_install.bat"" ""{app}"""; WorkingDir: "{app}"; StatusMsg: "Installing Python dependencies (first run, please wait)..."; Flags: runasoriginaluser waituntilterminated
+;Filename: "{cmd}"; Parameters: "/c ""{app}\post_install.bat"" ""{app}"""; WorkingDir: "{app}"; StatusMsg: "Installing Python dependencies (first run, please wait)..."; Flags: runhidden waituntilterminated
 Filename: "{app}\post_install.bat";Parameters: """{app}""";  WorkingDir: "{app}"; StatusMsg: "Installing Python dependencies (first run, please wait)..."; Flags: runasoriginaluser waituntilterminated
 ; Add ragcmdr to the user PATH so user can type "ragcmdr" from terminal
+
 [Registry]
 Root: HKCU; \
     Subkey: "Environment"; \
@@ -73,7 +76,7 @@ Root: HKCU; \
     ValueData: "{olddata};{app}"; \
     Check: NeedsAddPath(ExpandConstant('{app}'))
 
-; Uninstaller — remove the entire installation directory       
+; Uninstaller — remove the entire installation directory 
 [UninstallDelete]
 Type: filesandordirs; Name: "{app}\.venv"
 Type: filesandordirs; Name: "{app}\commands"
@@ -81,10 +84,8 @@ Type: filesandordirs; Name: "{app}\core"
 Type: filesandordirs; Name: "{app}\collections"
 Type: filesandordirs; Name: "{app}\output"
 Type: filesandordirs; Name: "{app}\python"
+Type: filesandordirs; Name: "{app}\packages"
 Type: filesandordirs; Name: "{app}\__pycache__"
-Type: filesandordirs; Name: "{app}\commands\__pycache__"
-Type: filesandordirs; Name: "{app}\core\__pycache__"
-Type: filesandordirs; Name: "{app}\chat\__pycache__"
 Type: filesandordirs; Name: "{app}\install.log"
 
 [Code]
@@ -156,12 +157,9 @@ begin
   end;
 end;
 
-
 /// Called during uninstallation. Removes the app folder from the user PATH.
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 begin
   if CurUninstallStep = usPostUninstall then
     RemoveFromPath(ExpandConstant('{app}'));
 end;
-
-

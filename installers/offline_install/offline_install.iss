@@ -50,9 +50,9 @@ Source: "..\..\requirements.txt"; DestDir: "{app}"
 Source: "..\..\config.json";     DestDir: "{app}"; Flags: onlyifdoesntexist
 Source: "ragcmdr.bat";     DestDir: "{app}"
 Source: "post_install.bat"; DestDir: "{app}"
-Source: "..\..\commands\*";      DestDir: "{app}\commands"; Flags: recursesubdirs createallsubdirs
-Source: "..\..\core\*";          DestDir: "{app}\core";     Flags: recursesubdirs createallsubdirs
-Source: "..\..\chat\*";          DestDir: "{app}\chat";     Flags: recursesubdirs createallsubdirs
+Source: "..\..\commands\*";      DestDir: "{app}\commands"; Excludes: "__pycache__,*.pyc";  Flags: recursesubdirs createallsubdirs
+Source: "..\..\core\*";          DestDir: "{app}\core";     Excludes: "__pycache__,*.pyc";  Flags: recursesubdirs createallsubdirs
+Source: "..\..\chat\*";          DestDir: "{app}\chat";     Excludes: "__pycache__,*.pyc";  Flags: recursesubdirs createallsubdirs
 
 ; --- Pre-downloaded packages (offline install) ---
 Source: "..\packages\*"; DestDir: "{app}\packages"; Flags: recursesubdirs createallsubdirs
@@ -86,6 +86,9 @@ Type: filesandordirs; Name: "{app}\output"
 Type: filesandordirs; Name: "{app}\python"
 Type: filesandordirs; Name: "{app}\packages"
 Type: filesandordirs; Name: "{app}\__pycache__"
+Type: filesandordirs; Name: "{app}\commands\__pycache__"
+Type: filesandordirs; Name: "{app}\core\__pycache__"
+Type: filesandordirs; Name: "{app}\chat\__pycache__"
 Type: filesandordirs; Name: "{app}\install.log"
 
 [Code]
