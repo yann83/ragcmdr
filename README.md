@@ -292,19 +292,45 @@ ragstudio/
 
  >No, it's an user installer, I made this choice to avoid suspicions about my program, `ragcmdr` will never ask you for privilege elevation.
 
- - When I type `ragcmdr` in the console windows, I get `'ragcmdrd' is not recognized as an internal command`, why ?
+ - When I type `ragcmdr` in the console windows, I get `'ragcmdr' is not recognized as an internal command`, why ?
 
  >The installer add `ragcmdr` to the user path variable, if it's not enough add it to the system path too. You'll need administrator right.
 
  - Can I use Ollama with it ?
 
- >I think you can, tell me if it don't work.
+ >The URL to configure would be http://127.0.0.1:11434 via `ragcmdr config set lmstudio.base_url http://127.0.0.1:11434`. Tell me if it doesn't work.
 
-  - Which LLM can I use ?
+- Where is my data stored? 
+  
+>Collections are located in %LOCALAPPDATA%\Ragcmdr\collections\ or the specified installation folder. Everything is local.
 
-  >The most important criteria are: a large context window (minimum 32k tokens, 128k+ recommended) to absorb the retrieved chunks, and a good ability to follow instructions—the model must respond solely based on the provided snippets, without making things up. The model's language must match that of your documentation and questions.
+ - How do I update a collection after modifying files? 
+ 
+>You muse use `ragcmdr update collection <name> <folder>` command. Your collection content will be wiped then re-indexed from your source folder.
 
-  - Could you explain the embedding parameters: `chunk_size`, `chunk_overlap` and the retrieval parameter: `top_k` ?
+ - LM Studio is not connected, what to do? 
+ 
+>Is the server status is started (green button) ? Check for serveur response in Developer Logs.
+
+- Which LLM can I use ?
+
+>The most important criteria are: a large context window (minimum 32k tokens, 128k+ recommended) to absorb the retrieved chunks, and a good ability to follow instructions—the model must respond solely based on the provided snippets, without making things up. The model's language must match that of your documentation and questions.
+
+ - Why is indexing slow the first time? 
+ 
+>Docling and the embedding template are downloaded on the first launch (~300 MB). 
+
+ - Can I index files in multiple languages? 
+ 
+>The `all-MiniLM-L6-v2` model is multilingual but optimized for English. For dense French, for example, the results may be less accurate.
+
+ - My documents are in French (or another language), should I change the embedding model?
+
+>The default model `all-MiniLM-L6-v2` works in French but is optimized for English. For better results with French documents, use `paraphrase-multilingual-MiniLM-L12-v2`, use 
+`ragcmdr config set embedding.model_name paraphrase-multilingual-MiniLM-L12-v2`
+Then re-index your existing collections with `ragcmdr update collection <name> <folder>`.
+
+- Could you explain the embedding parameters: `chunk_size`, `chunk_overlap` and the retrieval parameter: `top_k` ?
 
 `chunk_size` — Chunk Size
 
@@ -318,7 +344,7 @@ ragstudio/
 
 `top_k` — the number of chunks sent to the LLM
 
->After indexing, ChromaDB contains hundreds of chunks. When you ask a question, it is transformed into a vector and compared to all the chunks using cosine distance. `top_k = 50` means that the 50 semantically closest chunks are sent to the LLM prompt as context.
+>After indexing, ChromaDB contains hundreds of chunks. When you ask a question, it is transformed into a vector and compared to all the chunks using cosine distance. `top_k = 50` means that the 50 semantically closest chunks are sent to the LLM prompt as context. The default value in `config.json` is `5`.
 
  - Can you give me an example ?
 
@@ -328,6 +354,10 @@ a `chunk_overlap 200` (≈20% of the chunk) better preserves continuity between 
 a `top_k 20` sends more relevant context to the LLM without overloading the prompt.
 
 >If your documents are very short (forms, emails), you can lower `chunk_size` to 512 for greater precision. For long and dense reports, increase it to 2048.
+
+ - I asked something but the answer was out of context or limited. Does it really work ?
+
+>You must be precise in your questions, starting by indicating which files are relevant to your search and using the exact words found in those files. If you are asking for information about a blue car, but the word "car" is not mentioned in your files and is replaced by "automobile," then you must use the same terms.
 ---
 
 ## Acknowledgements
