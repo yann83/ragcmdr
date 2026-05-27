@@ -189,6 +189,10 @@ installers/packages/
 installers/python/
 installers/offline_install/*.exe
 installers/offline_install/*.md
+installers/offline_install/ragcmdr.bat
+installers/offline_install/offline_install - Copie.iss
 installers/online_install/*.exe
 installers/online_install/*.md
+installers/online_install/ragcmdr.bat
 desktop.ini
+installers/run/add_to_path.ps1

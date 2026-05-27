@@ -56,7 +56,7 @@ from core.state_manager import getActiveCollection
 # when the user types just "ragstudio" with no arguments.
 app = typer.Typer(
     name="ragcmdr",
-    help="ragcmdr — Query your documents with a local AI (LM Studio).",
+    help="ragcmdr — Query your documents with a local AI (Like LM Studio).",
     no_args_is_help=True,
     rich_markup_mode="rich",
 )

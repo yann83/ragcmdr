@@ -12,6 +12,12 @@ using a local AI server (LM Studio), with a rich terminal interface and minimal 
 
 ---
 
+A small gesture, a big support! Buy me a coffee ☕ if you appreciate my work. Thanks in advance!
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/yann83)
+
+---
+
 ## Requirements
 
 - Python 3.12+
@@ -35,26 +41,38 @@ pip install -r requirements.txt
 ## Quick Start
 
 **From console command:**
+
+1. Like a library, a collection contains the files that will be used to populate the theme of your choice.
+
+`ragcmdr create collection my-docs`
+
+2. Then open your collection
+
+`ragcmdr open collection my-docs`
+
+3. Add a file, a folder, or an entire file tree.
+
 ```bash
-ragcmdr create collection my-docs
-ragcmdr open collection my-docs
 ragcmdr add C:\temp\report.pdf
 ragcmdr add C:\temp\folder\
 ragcmdr add C:\temp\folder\ --recursive
-ragcmdr chat
-ragcmdr chat --save-history
 ```
 
-**From source:**
+4. After the feeding process is complete, you can chat with your files
+
+`ragcmdr chat`
+
+5. When you done you can exit the chat then close your collection.
+
 ```bash
-python ragcmdr.py create collection my-docs
-python ragcmdr.py open collection my-docs
-python ragcmdr.py add C:\temp\report.pdf
-python ragcmdr.py add C:\temp\folder\
-python ragcmdr.py add C:\temp\folder\ --recursive
-python ragcmdr.py chat
-python ragcmdr.py chat --save-history
+exit
+ragcmdr close collection
 ```
+
+
+**From source:**
+
+Replace `ragcmdr` by `python ragcmdr.py`
 
 ---
 
@@ -265,3 +283,57 @@ ragstudio/
 │       └── doc_count.txt       # Fast document count cache
 └── output/                     # Default Markdown export directory
 ```
+
+---
+
+## F.A.Q
+
+ - Do I need administrator right to install `ragcmdr` ?
+
+ >No, it's an user installer, I made this choice to avoid suspicions about my program, `ragcmdr` will never ask you for privilege elevation.
+
+ - When I type `ragcmdr` in the console windows, I get `'ragcmdrd' is not recognized as an internal command`, why ?
+
+ >The installer add `ragcmdr` to the user path variable, if it's not enough add it to the system path too. You'll need administrator right.
+
+ - Can I use Ollama with it ?
+
+ >I think you can, tell me if it don't work.
+
+  - Which LLM can I use ?
+
+  >The most important criteria are: a large context window (minimum 32k tokens, 128k+ recommended) to absorb the retrieved chunks, and a good ability to follow instructions—the model must respond solely based on the provided snippets, without making things up. The model's language must match that of your documentation and questions.
+
+  - Could you explain the embedding parameters: `chunk_size`, `chunk_overlap` and the retrieval parameter: `top_k` ?
+
+`chunk_size` — Chunk Size
+
+>When you index a 30-page PDF, Docling converts it to plain text (approximately 50,000 to 90,000 characters depending on the density). This text is then broken down into small chunks. `chunk_size = 512` means that each chunk is a maximum of 512 characters.
+>Why not send the entire PDF to the LLM? Because ChromaDB needs to compare your query to each chunk individually. The smaller the chunks, the more accurate the comparison—but if they're too small, they lose their context.
+
+`chunk_overlap` — Overlap
+
+>Imagine a sentence split precisely between two chunks: *"The maximum temperature is"* in chunk 1, and *"25°C according to regulations"* in chunk 2. Without overlap, if you search for "maximum temperature," chunk 1 would be selected but would be incomplete.
+>With `chunk_overlap = 64`, the last 64 characters of chunk 1 are copied to the beginning of chunk 2. The two chunks then contain the complete sentence. This is essential for protecting information that overlaps a chunk.
+
+`top_k` — the number of chunks sent to the LLM
+
+>After indexing, ChromaDB contains hundreds of chunks. When you ask a question, it is transformed into a vector and compared to all the chunks using cosine distance. `top_k = 50` means that the 50 semantically closest chunks are sent to the LLM prompt as context.
+
+ - Can you give me an example ?
+
+>With `gpt-oss-20b` with 100k+ context windows :
+a `chunk_size 1024` provides chunks richer in context, perfect for dense technical or legal documents.
+a `chunk_overlap 200` (≈20% of the chunk) better preserves continuity between paragraphs.
+a `top_k 20` sends more relevant context to the LLM without overloading the prompt.
+
+>If your documents are very short (forms, emails), you can lower `chunk_size` to 512 for greater precision. For long and dense reports, increase it to 2048.
+---
+
+## Acknowledgements
+
+- **[Docling](https://github.com/DS4SD/docling)** — the document parser
+- **[ChromaDB](https://github.com/chroma-core/chroma)** — the local vector base
+- **[sentence-transformers](https://github.com/UKPLab/sentence-transformers)** — embeddings (`all-MiniLM-L6-v2`)
+- **[Typer](https://github.com/fastapi/typer)** — the CLI framework
+- **[Rich](https://github.com/Textualize/rich)** — terminal rendering

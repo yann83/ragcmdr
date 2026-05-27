@@ -6,12 +6,14 @@
 #define AppPublisher "Ragcmdr"
 #define AppURL       "https://github.com/ragcmdr"
 #define AppExeName   "ragcmdr.bat"
+#define MyLicence "..\..\LICENSE"
 
 [Setup]
 AppId={{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}
 AppName={#AppName}
 AppVersion={#AppVersion}
 AppPublisherURL={#AppURL}
+LicenseFile={#MyLicence}
 AppSupportURL={#AppURL}
 AppUpdatesURL={#AppURL}
 DefaultDirName={localappdata}\{#AppName}
@@ -48,7 +50,7 @@ Source: "..\get-pip.py"; DestDir: "{app}"
 Source: "..\..\ragcmdr.py";    DestDir: "{app}"
 Source: "..\..\requirements.txt"; DestDir: "{app}"
 Source: "..\..\config.json";     DestDir: "{app}"; Flags: onlyifdoesntexist
-Source: "ragcmdr.bat";     DestDir: "{app}"
+Source: "..\run\ragcmdr.cmd";     DestDir: "{app}"
 Source: "post_install.bat"; DestDir: "{app}"
 Source: "..\..\commands\*";      DestDir: "{app}\commands";  Excludes: "__pycache__,*.pyc";   Flags: recursesubdirs createallsubdirs
 Source: "..\..\core\*";          DestDir: "{app}\core";      Excludes: "__pycache__,*.pyc";   Flags: recursesubdirs createallsubdirs
