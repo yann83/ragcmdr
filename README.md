@@ -52,6 +52,9 @@ pip install -r requirements.txt
 
 3. Add a file, a folder, or an entire file tree.
 
+> [!WARNING]  
+> Close your LLM before indexing, especially if you don't have enough VRAM/RAM
+
 ```bash
 ragcmdr add C:\temp\report.pdf
 ragcmdr add C:\temp\folder\

@@ -2,7 +2,7 @@
 ; Inno Setup 6 script for Ragcmdr
 
 #define AppName      "Ragcmdr"
-#define AppVersion   "1.0.0"
+#define AppVersion   "1.0.1"
 #define AppPublisher "Ragcmdr"
 #define AppURL       "https://github.com/ragcmdr"
 #define AppExeName   "ragcmdr.bat"
